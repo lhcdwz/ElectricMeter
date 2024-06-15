@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <script src="./JsBarcode.all.min.js"></script>
+  <link href="./bootstrap.min.css" rel="stylesheet">
+  <style>
+    body,
+    html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 在CSS中声明字体 */
+    @font-face {
+      font-family: 'LED';
+      /* 自定义字体的名称 */
+      src: url('./Untitled1.ttf') format('woff2'),
+        /* 字体文件的URL及格式 */
+    }
+
+    /* 应用自定义字体 */
+    .custom-font {
+      font-family: 'LED', Arial, sans-serif;
+      /* 先尝试自定义字体，否则回退到Arial或系统默认无衬线字体 */
+      font-size: 36px;
+    }
+
+    .col-auto {
+      flex: 0 0 auto;
+      width: auto;
+    }
+
+    #container {
+      position: relative;
+    }
+
+    img {
+      width: 400px;
+      height: 490px;
+      object-fit: contain;
+    }
+
+    #barcode {
+      position: absolute;
+      top: calc(50% + 55px);
+      left: calc(50% + -15px);
+      transform: translate(-50%, -50%);
+    }
+
+    /* 条形码宽度 */
+    #barcode svg {
+      width: 150px;
+    }
+
+    /* 新增的样式 */
+    #barcode h1 {
+      position: absolute;
+      top: 91px;
+      left: 0;
+      right: 68px;
+      bottom: 0;
+      margin: auto;
+      text-align: center;
+      z-index: 1;
+      font-size: 12px;
+    }
+
+    #barcode h2 {
+      position: absolute;
+      top: -305px;
+      left: 0;
+      right: -40px;
+      bottom: 0;
+      margin: auto;
+      text-align: center;
+      z-index: 2;
+      font-size: 25px;
+      letter-spacing: -2px;
+      /* 减小字间距 */
+      line-height: 0.7;
+      /* 减小行高，有助于压扁字体视觉效果 */
+      height: 30px;
+      /* 设置固定高度 */
+      width: 100px;
+      /* 设置固定宽度，根据需要调整 */
+      overflow: hidden;
+      /* 如果文字超出宽度，隐藏超出部分 */
+      white-space: nowrap;
+      /* 防止文本换行 */
+      text-overflow: ellipsis;
+      /* 超出部分显示省略号，可选 */
+      font-size: 30px;
+      /* 根据需要调整字体大小 */
+      color: rgb(54 59 47 / 90%);
+    }
+
+    /* CSS (添加隐藏类样式) */
+    .hidden {
+      display: none;
+    }
+
+    .container {
+      top: -11px;
+      left: -215px;
+      position: relative;
+      width: fit-content;
+      height: fit-content;
+      margin: auto;
+      background-color: transparent;
+    }
+
+    .overlay {
+      position: absolute;
+      z-index: 1;
+      transform-origin: top left;
+      font-size: 10px;
+    }
+
+    /* 当前 */
+    .element1 {
+      font-size: 10px;
+      z-index: 1;
+      width: 32px;
+      top: calc(50% + -122px);
+      left: calc(50% + -49px);
+      transform: translate(-50%, -50%);
+    }
+
+    .element2 {
+      font-size: 10px;
+      z-index: 1;
+      width: 32px;
+      top: calc(50% + -108px);
+      left: calc(50% + -29px);
+      transform: translate(-50%, -50%);
+    }
+
+    .element3 {
+      font-size: 10px;
+      z-index: 1;
+      width: 32px;
+      top: calc(50% + -108px);
+      left: calc(50% + -8px);
+      transform: translate(-50%, -50%);
+    }
+
+    .element4 {
+      font-size: 10px;
+      z-index: 1;
+      width: 32px;
+      top: calc(50% + -108px);
+      left: calc(50% + 36px);
+      transform: translate(-50%, -50%);
+    }
+
+    .element5 {
+      font-size: 10px;
+      z-index: 1;
+      width: 32px;
+      top: calc(50% + -122px);
+      left: calc(50% + 28px);
+      transform: translate(-50%, -50%);
+    }
+
+    .element6 {
+      font-size: 10px;
+      z-index: 1;
+      width: 32px;
+      top: calc(50% + -108px);
+      left: calc(50% + 14px);
+      transform: translate(-50%, -50%);
+    }
+
+    .element7 {
+      font-size: 10px;
+      z-index: 1;
+      width: 32px;
+      top: calc(50% + -108px);
+      left: calc(50% + 14px);
+      transform: translate(-50%, -50%);
+    }
+
+    .element8 {
+      /* text-shadow: -1.2px 1.2px 1.5px #4a444482; */
+      font-size: 10px;
+      z-index: 1;
+      width: 32px;
+      top: calc(50% + -122px);
+      left: calc(50% + -11px);
+      transform: translate(-50%, -50%);
+    }
+
+    .element9 {
+      font-family: 'LED', Arial, sans-serif;
+      text-shadow: -1.2px 1.2px 1.5px #4a444482;
+      font-size: 30px;
+      z-index: 1;
+      width: 140px;
+      top: calc(50% + -86px);
+      left: calc(50% + 0px);
+      transform: translate(-50%, -50%);
+      text-align: righ
+    }
+
+    .elementA {
+      font-family: 'LED', Arial, sans-serif;
+      z-index: 1;
+      width: 29px;
+      top: calc(50% + -122px);
+      left: calc(50% + -22px);
+      transform: translate(-50%, -50%);
+    }
+
+    .elementB {
+      font-family: 'LED', Arial, sans-serif;
+      z-index: 1;
+      width: 29px;
+      top: calc(50% + -122px);
+      left: calc(50% + -22px);
+      transform: translate(-50%, -50%);
+    }
+
+    .elementC {
+      font-family: 'LED', Arial, sans-serif;
+      z-index: 1;
+      width: 29px;
+      top: calc(50% + -122px);
+      left: calc(50% + -22px);
+      transform: translate(-50%, -50%);
+    }
+
+    .elementN {
+      z-index: 1;
+      width: 29px;
+      top: calc(50% + -122px);
+      left: calc(50% + -5px);
+      transform: translate(-50%, -50%);
+    }
+
+    #toggleButtonContainer {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 10px;
+    }
+  </style>
+  <title>居中显示图片</title>
+</head>
+
+<body>
+
+
+  </div>
+  <div class="clear"></div>
+  <img src="./电能表.jpg" alt="Your Image" id="toggleButton">
+
+  <div class="container">
+    <p class="overlay element1" data-id="1">当前</p>
+    <p class="overlay element2" data-id="2">电压</p>
+    <p class="overlay element3" data-id="3">电流</p>
+    <p class="overlay element4" data-id="4">功率</p>
+    <p class="overlay element5" data-id="5">总</p>
+    <p class="overlay element6" data-id="6">电量</p>
+    <!-- <p class="overlay element7" data-id="7">功率因数</p> -->
+    <p class="overlay elementA" data-id="7">A相</p>
+    <p class="overlay elementB" data-id="8">B相</p>
+    <p class="overlay elementC" data-id="8">C相</p>
+    <p class="overlay elementN" data-id="10">零线</p>
+    <p class="overlay element9" data-id="9">139743.75</p>
+    <!-- 默认占位显示，开机自检效果 -->
+    <p class="overlay element9" data-id="0">888888.88</p>
+    <!--  <p class="overlay element10" data-id="10">频率</p>
+    <p class="overlay element11" data-id="11">温度</p> -->
+    <!-- <button id="toggleButton">点击切换隐藏</button> -->
+  </div>
+
+  <div id="barcode">
+    <svg width="100" height="100" viewBox="0 0 100 100"></svg>
+    <!-- <h1>1234567890</h1>
+    <h2>1111.23</h2> -->
+  </div>
+  <script>
+    function generateBarcode(input) {
+      JsBarcode(document.querySelector("#barcode svg"), input);
+    }
+
+    generateBarcode("dnb.electroboy.cn");
+  </script>
+  <!-- <script>
+    // 定义一个函数来生成随机数并更新DOM
+    function refreshRandomNumber() {
+      var element = document.querySelector('.element9');
+      var min = 100000;
+      var max = 950000;
+      var randomValue = (Math.random() * (max - min) + min).toFixed(2);
+      element.textContent = randomValue;
+    }
+
+    // 首次调用以立即显示一个随机数
+    refreshRandomNumber();
+
+    // 每隔1秒（1000毫秒）调用一次refreshRandomNumber函数
+    setInterval(refreshRandomNumber, 1000);
+  </script> -->
+
+  <script>
+    // 获取目标元素
+    var element9 = document.querySelector('.element9');
+
+    // 定义一个函数来更新元素内容，在适当位置插入小数点并去掉前两位数字
+    function updateTimestamp() {
+      var currentTimeStamp = Math.floor(Date.now() / 1000); // 获取当前时间的秒级时间戳
+      // 控制台打印原始时间戳秒
+      // console.log("原始时间戳:", currentTimeStamp);
+
+      var timestampStr = currentTimeStamp.toString(); // 转换为字符串
+      // 去掉前两位数字，因为太长了，所以只保留后8位
+      var formattedTimestamp = timestampStr.substring(2);
+
+      // 因为已经去掉了前两位，现在的倒数第二位实际上是原始字符串的倒数第四位
+      // 插入小数点到新字符串的倒数第二位（原字符串的倒数第四位）
+      var modifiedTimestampStr = formattedTimestamp.slice(0, -2) + '.' + formattedTimestamp.slice(-2);
+      element9.textContent = modifiedTimestampStr;
+    }
+
+    // 立即调用函数更新内容
+    updateTimestamp();
+
+    // 每秒自动更新时间戳
+    setInterval(updateTimestamp, 1000);
+  </script>
+
+  <!-- 电能表电量显示函数，直接使用时间戳去掉前2位，增加小数点显示上去 -->
+  <script>
+
+    let clickCount = 0; // 初始化点击计数器
+    let isFirstExecution = true; // 在函数外部定义，用于标记是否首次执行，用于初始化日志打印
+
+    // 定义显示规则映射
+    const displayRules = {
+      0: [1, 5, 6, 9],
+      1: [1, 2, 7],
+      2: [1, 3, 8],
+      3: [1, 4, 9],
+      4: [1, 4, 10],
+      5: [1, 5,], // 注意这里与0相同，可以考虑是否需要合并或调整逻辑
+    };
+
+    function toggleSpecificElements() {
+      if (isFirstExecution) {
+        console.log("电能表初始化完成"); // 首次执行时打印日志
+        isFirstExecution = false; // 将首次执行标志设为false，确保之后不再打印
+      }
+      const elements = document.querySelectorAll('.overlay');
+      elements.forEach((element) => {
+        const elementId = parseInt(element.dataset.id);
+        // 根据点击次数查找对应的显示规则
+        const visibleIds = displayRules[clickCount % 6] || []; // 如果没有对应规则，默认为空数组
+        element.style.display = visibleIds.includes(elementId) ? 'block' : 'none';
+      });
+      clickCount++; // 增加点击计数
+    }
+
+    // 页面加载完成后，立即绑定事件监听器并计划1秒后自动执行一次
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('toggleButton').addEventListener('click', toggleSpecificElements);
+
+      // 计划1秒后执行首次显示
+      setTimeout(toggleSpecificElements, 1000);
+
+    });
+
+  </script>
+</body>
+
+</html>
