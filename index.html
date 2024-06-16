@@ -3,15 +3,12 @@
 <!-- lhc -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <script src="./JsBarcode.all.min.js"></script>
-   <style>
+  <style>
     body,
     html {
-   
       height: 100%;
       margin: 0;
       display: flex;
@@ -19,19 +16,19 @@
       align-items: center;
     }
 
-   @media (min-width: 568px) {
-    body {
+    @media (min-width: 568px) {
+      body {
         /* zoom: 1.25; */
         transform: scale(1.5);
+      }
     }
-}
 
     /* 在CSS中声明字体 */
     @font-face {
       font-family: 'LED';
-      /* 自定义字体的名称 */
-         src: url('./Untitled1.ttf') format('truetype'), /* 添加适当的格式 */
-        /* 字体文件的URL及格式 */
+      src: url('./LED.ttf') format('truetype'),
+        url('./lhc.woff') format('woff');
+
     }
 
     /* 应用自定义字体 */
@@ -98,8 +95,8 @@
       transform-origin: top left;
       font-size: 10px;
 
-      top: calc(50% );
-      left: calc(50% );
+      top: calc(50%);
+      left: calc(50%);
     }
 
     /* 当前 */
@@ -138,6 +135,7 @@
       left: calc(50% + 36px);
       transform: translate(-50%, -50%);
     }
+
     .elementΦ {
       font-size: 10px;
       z-index: 1;
@@ -242,27 +240,29 @@
       z-index: 1;
       width: 140px;
       top: -94px;
-      left:  134px;
+      left: 134px;
       transform: translate(-50%, -50%);
       text-align: righ
     }
+
     .element13 {
 
       font-size: 7px;
       z-index: 1;
       width: 140px;
       top: -80px;
-      left:  134px;
+      left: 134px;
       transform: translate(-50%, -50%);
       text-align: righ
     }
+
     .element14 {
 
       font-size: 7px;
       z-index: 1;
       width: 140px;
       top: -87px;
-      left:  134px;
+      left: 134px;
       transform: translate(-50%, -50%);
       text-align: righ
     }
@@ -275,7 +275,7 @@
 
   </div>
   <div class="clear"></div>
-  <img src="./电能表-恢复的.jpg" alt="Your Image" id="toggleButton">
+  <img src="./电能表.webp" alt="Your Image" id="toggleButton">
 
   <div class="container">
     <p class="overlay element1" data-id="1">当前</p>
@@ -305,6 +305,14 @@
   <div id="barcode">
     <svg width="100" height="100" viewBox="0 0 100 100"></svg>
   </div>
+
+  <!-- 尝试在线加载 -->
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@latest/dist/JsBarcode.all.min.js"></script>
+
+  <!-- 备份本地脚本 -->
+  <!-- <script id="localJsBarcode" src="./JsBarcode.all.min.js"></script> -->
+
+
   <script>
     function generateBarcode(input) {
       JsBarcode(document.querySelector("#barcode svg"), input);
@@ -395,6 +403,13 @@
       setTimeout(toggleSpecificElements, 1000);
 
     });
+
+    // 假设这个rect是唯一的，或者你有其他方式定位到它
+    var rectElement = document.querySelector('rect[width="464"]'); // 根据实际情况调整选择器
+
+    if (rectElement) {
+      rectElement.style.fill = "#ffffff00"; // 修改fill属性
+    }
 
   </script>
 </body>
