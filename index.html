@@ -8,10 +8,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <script src="./JsBarcode.all.min.js"></script>
-  <link href="./bootstrap.min.css" rel="stylesheet">
-  <style>
+   <style>
     body,
     html {
+   
       height: 100%;
       margin: 0;
       display: flex;
@@ -19,11 +19,18 @@
       align-items: center;
     }
 
+   @media (min-width: 568px) {
+    body {
+        /* zoom: 1.25; */
+        transform: scale(1.5);
+    }
+}
+
     /* 在CSS中声明字体 */
     @font-face {
       font-family: 'LED';
       /* 自定义字体的名称 */
-      src: url('./Untitled1.ttf') format('woff2'),
+         src: url('./Untitled1.ttf') format('truetype'), /* 添加适当的格式 */
         /* 字体文件的URL及格式 */
     }
 
@@ -39,6 +46,12 @@
       width: auto;
     }
 
+
+    p {
+      margin-top: 0;
+      margin-bottom: 1rem
+    }
+
     #container {
       position: relative;
     }
@@ -51,56 +64,15 @@
 
     #barcode {
       position: absolute;
-      top: calc(50% + 55px);
-      left: calc(50% + -15px);
+      top: calc(50% + 59px);
+      left: calc(50% + -4px);
       transform: translate(-50%, -50%);
     }
 
     /* 条形码宽度 */
     #barcode svg {
       width: 150px;
-    }
-
-    /* 新增的样式 */
-    #barcode h1 {
-      position: absolute;
-      top: 91px;
-      left: 0;
-      right: 68px;
-      bottom: 0;
-      margin: auto;
-      text-align: center;
-      z-index: 1;
-      font-size: 12px;
-    }
-
-    #barcode h2 {
-      position: absolute;
-      top: -305px;
-      left: 0;
-      right: -40px;
-      bottom: 0;
-      margin: auto;
-      text-align: center;
-      z-index: 2;
-      font-size: 25px;
-      letter-spacing: -2px;
-      /* 减小字间距 */
-      line-height: 0.7;
-      /* 减小行高，有助于压扁字体视觉效果 */
-      height: 30px;
-      /* 设置固定高度 */
-      width: 100px;
-      /* 设置固定宽度，根据需要调整 */
-      overflow: hidden;
-      /* 如果文字超出宽度，隐藏超出部分 */
-      white-space: nowrap;
-      /* 防止文本换行 */
-      text-overflow: ellipsis;
-      /* 超出部分显示省略号，可选 */
-      font-size: 30px;
-      /* 根据需要调整字体大小 */
-      color: rgb(54 59 47 / 90%);
+      height: 50px;
     }
 
     /* CSS (添加隐藏类样式) */
@@ -110,7 +82,7 @@
 
     .container {
       top: -11px;
-      left: -215px;
+      left: -202px;
       position: relative;
       width: fit-content;
       height: fit-content;
@@ -118,11 +90,16 @@
       background-color: transparent;
     }
 
+    /* 全部元素css */
     .overlay {
       position: absolute;
       z-index: 1;
+      margin: 0;
       transform-origin: top left;
       font-size: 10px;
+
+      top: calc(50% );
+      left: calc(50% );
     }
 
     /* 当前 */
@@ -159,6 +136,14 @@
       width: 32px;
       top: calc(50% + -108px);
       left: calc(50% + 36px);
+      transform: translate(-50%, -50%);
+    }
+    .elementΦ {
+      font-size: 10px;
+      z-index: 1;
+      width: 32px;
+      top: calc(50% + -108px);
+      left: calc(50% + 56px);
       transform: translate(-50%, -50%);
     }
 
@@ -202,7 +187,7 @@
     .element9 {
       font-family: 'LED', Arial, sans-serif;
       text-shadow: -1.2px 1.2px 1.5px #4a444482;
-      font-size: 30px;
+      font-size: 29px;
       z-index: 1;
       width: 140px;
       top: calc(50% + -86px);
@@ -246,11 +231,40 @@
       transform: translate(-50%, -50%);
     }
 
-    #toggleButtonContainer {
+    /* #toggleButtonContainer {
       position: absolute;
       top: 0;
       right: 0;
       margin: 10px;
+    } */
+    .element12 {
+      font-size: 7px;
+      z-index: 1;
+      width: 140px;
+      top: -94px;
+      left:  134px;
+      transform: translate(-50%, -50%);
+      text-align: righ
+    }
+    .element13 {
+
+      font-size: 7px;
+      z-index: 1;
+      width: 140px;
+      top: -80px;
+      left:  134px;
+      transform: translate(-50%, -50%);
+      text-align: righ
+    }
+    .element14 {
+
+      font-size: 7px;
+      z-index: 1;
+      width: 140px;
+      top: -87px;
+      left:  134px;
+      transform: translate(-50%, -50%);
+      text-align: righ
     }
   </style>
   <title>居中显示图片</title>
@@ -261,13 +275,14 @@
 
   </div>
   <div class="clear"></div>
-  <img src="./电能表.jpg" alt="Your Image" id="toggleButton">
+  <img src="./电能表-恢复的.jpg" alt="Your Image" id="toggleButton">
 
   <div class="container">
     <p class="overlay element1" data-id="1">当前</p>
     <p class="overlay element2" data-id="2">电压</p>
     <p class="overlay element3" data-id="3">电流</p>
     <p class="overlay element4" data-id="4">功率</p>
+    <p class="overlay elementΦ" data-id="4">因数</p>
     <p class="overlay element5" data-id="5">总</p>
     <p class="overlay element6" data-id="6">电量</p>
     <!-- <p class="overlay element7" data-id="7">功率因数</p> -->
@@ -280,13 +295,15 @@
     <p class="overlay element9" data-id="0">888888.88</p>
     <!--  <p class="overlay element10" data-id="10">频率</p>
     <p class="overlay element11" data-id="11">温度</p> -->
-    <!-- <button id="toggleButton">点击切换隐藏</button> -->
+    <!-- <p class="overlay element12" data-id="12">cosΦ</p> -->
+    <p class="overlay element12" data-id="12">Hz</p>
+    <p class="overlay element13" data-id="13">kw</p>
+    <p class="overlay element13" data-id="13">kwh</p>
+    <p class="overlay element14" data-id="14">VA</p>
   </div>
 
   <div id="barcode">
     <svg width="100" height="100" viewBox="0 0 100 100"></svg>
-    <!-- <h1>1234567890</h1>
-    <h2>1111.23</h2> -->
   </div>
   <script>
     function generateBarcode(input) {
@@ -352,7 +369,7 @@
       2: [1, 3, 8],
       3: [1, 4, 9],
       4: [1, 4, 10],
-      5: [1, 5,], // 注意这里与0相同，可以考虑是否需要合并或调整逻辑
+      5: [1, 5,],
     };
 
     function toggleSpecificElements() {
