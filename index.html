@@ -3,12 +3,20 @@
 <!-- lhc -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>虚拟电能表</title>
   <style>
     body,
     html {
+      /* 禁止选中效果，防止影响效果展示 */
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
       height: 100%;
       margin: 0;
       display: flex;
@@ -18,8 +26,8 @@
 
     @media (min-width: 568px) {
       body {
-        /* zoom: 1.25; */
-        transform: scale(1.5);
+        zoom: 1.5;
+        /* transform: scale(1.5); */
       }
     }
 
@@ -66,6 +74,11 @@
       transform: translate(-50%, -50%);
     }
 
+    #toggleButton {
+      user-drag: none;
+      -webkit-user-drag: none;
+    }
+
     /* 条形码宽度 */
     #barcode svg {
       width: 150px;
@@ -87,230 +100,263 @@
       background-color: transparent;
     }
 
-    /* 全部元素css */
+    /* 全部文字元素的css */
     .overlay {
+      /* display: none; */
       position: absolute;
       z-index: 1;
       margin: 0;
       transform-origin: top left;
       font-size: 10px;
-
+      transform: translate(-50%, -50%);
       top: calc(50%);
       left: calc(50%);
     }
 
-    /* 当前 */
-    .element1 {
+    .当前 {
       font-size: 10px;
-      z-index: 1;
       width: 32px;
       top: calc(50% + -122px);
       left: calc(50% + -49px);
-      transform: translate(-50%, -50%);
     }
 
-    .element2 {
+    .电压 {
       font-size: 10px;
-      z-index: 1;
       width: 32px;
       top: calc(50% + -108px);
       left: calc(50% + -29px);
-      transform: translate(-50%, -50%);
+
     }
 
-    .element3 {
+    .电流 {
       font-size: 10px;
-      z-index: 1;
       width: 32px;
       top: calc(50% + -108px);
       left: calc(50% + -8px);
-      transform: translate(-50%, -50%);
+
     }
 
-    .element4 {
+    .功率 {
       font-size: 10px;
-      z-index: 1;
       width: 32px;
       top: calc(50% + -108px);
       left: calc(50% + 36px);
-      transform: translate(-50%, -50%);
+
     }
 
-    .elementΦ {
+    .因数 {
       font-size: 10px;
-      z-index: 1;
       width: 32px;
       top: calc(50% + -108px);
       left: calc(50% + 56px);
-      transform: translate(-50%, -50%);
     }
 
-    .element5 {
+    .总 {
       font-size: 10px;
-      z-index: 1;
       width: 32px;
       top: calc(50% + -122px);
       left: calc(50% + 28px);
-      transform: translate(-50%, -50%);
     }
 
-    .element6 {
+    .电量 {
       font-size: 10px;
-      z-index: 1;
       width: 32px;
       top: calc(50% + -108px);
       left: calc(50% + 14px);
-      transform: translate(-50%, -50%);
     }
 
-    .element7 {
-      font-size: 10px;
-      z-index: 1;
-      width: 32px;
-      top: calc(50% + -108px);
-      left: calc(50% + 14px);
-      transform: translate(-50%, -50%);
-    }
 
-    .element8 {
-      /* text-shadow: -1.2px 1.2px 1.5px #4a444482; */
+    .ABC相 {
+      font-family: 'LED', Arial, sans-serif;
       font-size: 10px;
-      z-index: 1;
       width: 32px;
       top: calc(50% + -122px);
       left: calc(50% + -11px);
-      transform: translate(-50%, -50%);
+
     }
 
-    .element9 {
+    .零线 {
+      display: none;
       font-family: 'LED', Arial, sans-serif;
       text-shadow: -1.2px 1.2px 1.5px #4a444482;
       font-size: 29px;
-      z-index: 1;
       width: 140px;
       top: calc(50% + -86px);
-      left: calc(50% + 0px);
-      transform: translate(-50%, -50%);
-      text-align: righ
+      left: calc(50% - 6px);
+
+      text-align: right;
     }
 
-    .elementA {
+    .电量值 {
+      display: none;
       font-family: 'LED', Arial, sans-serif;
-      z-index: 1;
-      width: 29px;
-      top: calc(50% + -122px);
-      left: calc(50% + -22px);
-      transform: translate(-50%, -50%);
+      text-shadow: -1.2px 1.2px 1.5px #4a444482;
+      font-size: 29px;
+      width: 140px;
+      top: calc(50% + -86px);
+      left: calc(50% - 6px);
+      text-align: right;
     }
 
-    .elementB {
+
+    .电量占位 {
       font-family: 'LED', Arial, sans-serif;
-      z-index: 1;
-      width: 29px;
-      top: calc(50% + -122px);
-      left: calc(50% + -22px);
-      transform: translate(-50%, -50%);
+      text-shadow: -1.2px 1.2px 1.5px #4a444482;
+      font-size: 29px;
+      width: 140px;
+      top: calc(50% + -86px);
+      left: calc(50% - 6px);
+      text-align: right;
     }
 
-    .elementC {
+    .电流值 {
+      display: none;
       font-family: 'LED', Arial, sans-serif;
-      z-index: 1;
-      width: 29px;
-      top: calc(50% + -122px);
-      left: calc(50% + -22px);
-      transform: translate(-50%, -50%);
+      text-shadow: -1.2px 1.2px 1.5px #4a444482;
+      font-size: 29px;
+      width: 140px;
+      top: calc(50% + -86px);
+      left: calc(50% - 6px);
+      text-align: right;
     }
 
-    .elementN {
-      z-index: 1;
+    .电压值 {
+      display: none;
+      font-family: 'LED', Arial, sans-serif;
+      text-shadow: -1.2px 1.2px 1.5px #4a444482;
+      font-size: 29px;
+      width: 140px;
+      top: calc(50% + -86px);
+      left: calc(50% - 6px);
+      text-align: right;
+
+    }
+
+    .零线 {
       width: 29px;
       top: calc(50% + -122px);
       left: calc(50% + -5px);
-      transform: translate(-50%, -50%);
     }
 
-    /* #toggleButtonContainer {
-      position: absolute;
-      top: 0;
-      right: 0;
-      margin: 10px;
-    } */
-    .element12 {
-      font-size: 7px;
-      z-index: 1;
+    .w {
+      display: none;
+      font-size: 6px;
       width: 140px;
       top: -94px;
       left: 134px;
-      transform: translate(-50%, -50%);
       text-align: righ
     }
 
-    .element13 {
+    .kw {
+      font-size: 6px;
+      width: 140px;
+      top: -94px;
+      left: 134px;
+      text-align: righ
+    }
 
+    .kwh {
       font-size: 7px;
-      z-index: 1;
       width: 140px;
       top: -80px;
       left: 134px;
-      transform: translate(-50%, -50%);
       text-align: righ
     }
 
-    .element14 {
-
+    .V {
       font-size: 7px;
-      z-index: 1;
       width: 140px;
       top: -87px;
       left: 134px;
-      transform: translate(-50%, -50%);
       text-align: righ
     }
+
+    .A {
+      font-size: 7px;
+      width: 140px;
+      top: -87px;
+      left: 139px;
+      text-align: righ
+    }
+
+    .功率因数 {
+      font-size: 6px;
+      width: 140px;
+      top: -95px;
+      left: 142px;
+      text-align: righ;
+    }
+
+    .功率因数值 {
+      display: none;
+      font-family: 'LED', Arial, sans-serif;
+      text-shadow: -1.2px 1.2px 1.5px #4a444482;
+      font-size: 29px;
+      width: 140px;
+      top: calc(50% + -86px);
+      left: calc(50% - 6px);
+
+      text-align: right;
+    }
+
+    .功率值 {
+      display: none;
+      font-family: 'LED', Arial, sans-serif;
+      text-shadow: -1.2px 1.2px 1.5px #4a444482;
+      font-size: 29px;
+      width: 140px;
+      top: calc(50% + -86px);
+      left: calc(50% - 6px);
+
+      text-align: right;
+    }
   </style>
-  <title>居中显示图片</title>
+
 </head>
 
-<body>
+<body oncontextmenu="return false;" onkeydown="return event.key !== 'F12';">
+  <!-- 禁用右键和F12防止影响效果展示和下载处理前的图片 -->
 
-
-  </div>
-  <div class="clear"></div>
-  <img src="./电能表.webp" alt="Your Image" id="toggleButton">
+  <img src="./电能表.webp" alt="电能表图片" id="toggleButton">
 
   <div class="container">
-    <p class="overlay element1" data-id="1">当前</p>
-    <p class="overlay element2" data-id="2">电压</p>
-    <p class="overlay element3" data-id="3">电流</p>
-    <p class="overlay element4" data-id="4">功率</p>
-    <p class="overlay elementΦ" data-id="4">因数</p>
-    <p class="overlay element5" data-id="5">总</p>
-    <p class="overlay element6" data-id="6">电量</p>
-    <!-- <p class="overlay element7" data-id="7">功率因数</p> -->
-    <p class="overlay elementA" data-id="7">A相</p>
-    <p class="overlay elementB" data-id="8">B相</p>
-    <p class="overlay elementC" data-id="8">C相</p>
-    <p class="overlay elementN" data-id="10">零线</p>
-    <p class="overlay element9" data-id="9">139743.75</p>
+    <p class="overlay 当前" data-id="当前">当前</p>
+    <p class="overlay 电压" data-id="电压">电压</p>
+    <p class="overlay 电流" data-id="电流">电流</p>
+    <p class="overlay 功率" data-id="功率">功率</p>
+    <p class="overlay 因数" data-id="因数">因数</p>
+    <p class="overlay 总" data-id="总">总</p>
+    <p class="overlay 电量" data-id="电量">电量</p>
+    <p class="overlay ABC相" data-id="A相">A相</p>
+    <p class="overlay ABC相" data-id="B相">B相</p>
+    <p class="overlay ABC相" data-id="C相">C相</p>
+    <p class="overlay 零线" data-id="零线">零线</p>
+    <p class="overlay 电量值" data-id="电量值">19491001</p>
     <!-- 默认占位显示，开机自检效果 -->
-    <p class="overlay element9" data-id="0">888888.88</p>
-    <!--  <p class="overlay element10" data-id="10">频率</p>
-    <p class="overlay element11" data-id="11">温度</p> -->
-    <!-- <p class="overlay element12" data-id="12">cosΦ</p> -->
-    <p class="overlay element12" data-id="12">Hz</p>
-    <p class="overlay element13" data-id="13">kw</p>
-    <p class="overlay element13" data-id="13">kwh</p>
-    <p class="overlay element14" data-id="14">VA</p>
+    <p class="overlay 电量占位" data-id="电量占位">888888.88</p>
+    <p class="overlay 功率因数" data-id="φ">φ</p>
+    <p class="overlay w" data-id="w">w</p>
+    <p class="overlay kw" data-id="kw">kw</p>
+    <p class="overlay kwh" data-id="kwh">kwh</p>
+    <p class="overlay V" data-id="V">V</p>
+    <p class="overlay A" data-id="A">A</p>
+    <p class="overlay 功率因数值" data-id="功率因数值">1.00</p>
+    <p class="overlay 电压值" data-id="电压值">220.0</p>
+    <p class="overlay 电流值" data-id="电流值">10.00</p>
+    <p class="overlay 功率值" data-id="功率值">2200.00</p>
   </div>
 
+  <!-- 二维码，条形码，自定义生成 -->
   <div id="barcode">
     <svg width="100" height="100" viewBox="0 0 100 100"></svg>
   </div>
 
+
   <!-- 尝试在线加载 -->
-  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@latest/dist/JsBarcode.all.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/jsbarcode@latest/dist/JsBarcode.all.min.js"></script> -->
 
   <!-- 备份本地脚本 -->
-  <!-- <script id="localJsBarcode" src="./JsBarcode.all.min.js"></script> -->
+  <script id="localJsBarcode" src="./JsBarcode.all.min.js"></script>
 
 
   <script>
@@ -319,15 +365,36 @@
     }
 
     generateBarcode("dnb.electroboy.cn");
+
+    // 禁用右键菜单，防止影响效果展示，以及保存处理前的图片
+    document.oncontextmenu = function () {
+      return false;
+    }
+
+    // 阻止F12
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'F12' || event.keyCode === 123) {
+        event.preventDefault();
+        return false;
+      }
+    });
+
   </script>
-  <!-- <script>
-    // 定义一个函数来生成随机数并更新DOM
+
+  <!-- 定义一个函数来生成随机电压值 -->
+  <script>
+    // 定义全局变量
+    var 当前电压值;
+
     function refreshRandomNumber() {
-      var element = document.querySelector('.element9');
-      var min = 100000;
-      var max = 950000;
-      var randomValue = (Math.random() * (max - min) + min).toFixed(2);
+      var element = document.querySelector('.电压值');
+      var min = 220;
+      var max = 229;
+      var randomValue = (Math.random() * (max - min) + min).toFixed(1);
       element.textContent = randomValue;
+
+      // 更新全局变量的值
+      当前电压值 = randomValue;
     }
 
     // 首次调用以立即显示一个随机数
@@ -335,11 +402,81 @@
 
     // 每隔1秒（1000毫秒）调用一次refreshRandomNumber函数
     setInterval(refreshRandomNumber, 1000);
-  </script> -->
+  </script>
 
+  <!-- 定义一个函数来生成随机电流值 -->
+  <script>
+  // 定义全局变量
+  var 当前电流值 = 0;
+
+  function refreshRandomNumber() {
+    var oldValue = 当前电流值; // 保存旧值用于计算min和max
+    var element = document.querySelector('.电流值');
+    var min = Math.max(0, oldValue - 5);
+    var max = oldValue + 5;
+    
+    // 确保生成的新值在限制范围内且不超过差值10A
+    var randomValue = Math.min(Math.random() * (max - min) + min, max);
+    randomValue = Math.round(randomValue * 100) / 100; // 为了精确到两位小数，可以这样处理
+    
+    element.textContent = randomValue.toFixed(2);
+
+    // 更新全局变量的值
+    当前电流值 = randomValue;
+  }
+
+  // 首次调用以立即显示一个随机数
+  refreshRandomNumber();
+
+  // 每隔1秒（1000毫秒）调用一次refreshRandomNumber函数
+  setInterval(refreshRandomNumber, 1000);
+</script>
+
+    <!-- 定义一个函数来生成随机功率因数值 -->
+    <script>
+      // 定义全局变量
+      var 当前功率因数;
+  
+      function refreshRandomNumber() {
+        var element = document.querySelector('.功率因数值');
+        var min = 0.8;
+        var max = 1;
+        var randomValue = (Math.random() * (max - min) + min).toFixed(2);
+        element.textContent = randomValue;
+  
+        // 更新全局变量的值
+        当前功率因数 = randomValue;
+  
+      }
+  
+      // 首次调用以立即显示一个随机数
+      refreshRandomNumber();
+  
+      // 每隔1秒（1000毫秒）调用一次refreshRandomNumber函数
+      setInterval(refreshRandomNumber, 1000);
+    </script>
+
+
+  <!-- 定义一个函数来计算有功功率值 -->
+  <script>
+
+    function refreshRandomNumber() {
+      var element = document.querySelector('.功率值');
+
+      element.textContent = (当前电压值 * 当前电流值 * 当前功率因数).toFixed(2);
+    }
+
+    // 首次调用以立即显示一个随机数
+    refreshRandomNumber();
+
+    // 每隔1秒（1000毫秒）调用一次refreshRandomNumber函数
+    setInterval(refreshRandomNumber, 1000);
+  </script>
+
+  <!-- 模拟电能表电量显示函数，直接使用时间戳去掉前2位，增加小数点显示上去 -->
   <script>
     // 获取目标元素
-    var element9 = document.querySelector('.element9');
+    var element9 = document.querySelector('.电量值');
 
     // 定义一个函数来更新元素内容，在适当位置插入小数点并去掉前两位数字
     function updateTimestamp() {
@@ -364,47 +501,75 @@
     setInterval(updateTimestamp, 1000);
   </script>
 
-  <!-- 电能表电量显示函数，直接使用时间戳去掉前2位，增加小数点显示上去 -->
   <script>
 
     let clickCount = 0; // 初始化点击计数器
     let isFirstExecution = true; // 在函数外部定义，用于标记是否首次执行，用于初始化日志打印
-
+    let autoTriggerScheduled = false; // 新增变量，用于标记自动触发是否已安排
     // 定义显示规则映射
     const displayRules = {
-      0: [1, 5, 6, 9],
-      1: [1, 2, 7],
-      2: [1, 3, 8],
-      3: [1, 4, 9],
-      4: [1, 4, 10],
-      5: [1, 5,],
+      0: ["当前", "总", "电量", "电量值", "kwh"],
+      1: ["当前", "A相", "电压", "电压值", "V"],
+      2: ["当前", "A相", "电流", "电流值", "A"],
+      3: ["当前", "A相", "总", "功率", "功率值", "w"],
+      4: ["当前", "A相", "功率", "因数", "功率因数值", "φ"],
     };
+
+
+    // function toggleSpecificElements() {
+    //   if (isFirstExecution) {
+    //     console.log("电能表初始化完成"); // 首次执行时打印日志
+    //     isFirstExecution = false; // 将首次执行标志设为false，确保之后不再打印
+    //   }
+    //   const elements = document.querySelectorAll('.overlay');
+    //   elements.forEach((element) => {
+    //     const elementId = parseInt(element.dataset.id);
+    //     // 根据点击次数查找对应的显示规则
+    //     const visibleIds = displayRules[clickCount % 9] || []; // 如果没有对应规则，默认为空数组
+    //     element.style.display = visibleIds.includes(elementId) ? 'block' : 'none';
+    //   });
+    //       console.log('clickCount:', clickCount);
+    // console.log('Visible IDs:', displayRules[clickCount % 9]);
+
+    //   clickCount++; // 增加点击计数
+    // }
 
     function toggleSpecificElements() {
       if (isFirstExecution) {
-        console.log("电能表初始化完成"); // 首次执行时打印日志
-        isFirstExecution = false; // 将首次执行标志设为false，确保之后不再打印
+        console.log("电能表初始化完成");
+        isFirstExecution = false;
       }
       const elements = document.querySelectorAll('.overlay');
       elements.forEach((element) => {
-        const elementId = parseInt(element.dataset.id);
-        // 根据点击次数查找对应的显示规则
-        const visibleIds = displayRules[clickCount % 6] || []; // 如果没有对应规则，默认为空数组
-        element.style.display = visibleIds.includes(elementId) ? 'block' : 'none';
+        const elementId = element.dataset.id;
+        const visibleIds = displayRules[clickCount % 5] || [];
+        if (visibleIds.includes(elementId)) {
+          element.style.display = 'block';
+        } else {
+          element.style.display = 'none';
+        }
       });
-      clickCount++; // 增加点击计数
+      console.log('clickCount:', clickCount);
+      console.log('Visible IDs:', displayRules[clickCount % 5]);
+      clickCount++;
+
     }
 
-    // 页面加载完成后，立即绑定事件监听器并计划1秒后自动执行一次
+    // 页面加载完成后，2s绑定事件监听器并计划1秒后自动执行一次
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('toggleButton').addEventListener('click', toggleSpecificElements);
 
-      // 计划1秒后执行首次显示
-      setTimeout(toggleSpecificElements, 1000);
-
+      setTimeout(function () {
+        if (clickCount === 0 && !autoTriggerScheduled) {
+          // 安排1ms后执行初始化，同时标记已安排
+          setTimeout(toggleSpecificElements, 1);
+          console.log("电能表已执行自动初始化");
+          autoTriggerScheduled = true;
+        }
+      }, 2000);
     });
 
-    // 假设这个rect是唯一的，或者你有其他方式定位到它
+    // 使用rect定位，更改js库fill属性，实现透明背景
     var rectElement = document.querySelector('rect[width="464"]'); // 根据实际情况调整选择器
 
     if (rectElement) {
@@ -412,6 +577,10 @@
     }
 
   </script>
+
+<script charset="UTF-8" id="LA_COLLECT" src="http://sdk.51.la/js-sdk-pro.min.js"></script>
+<script>LA.init({id:"3IshXDu9ajKrwaQq",ck:"3IshXDu9ajKrwaQq"})</script>
+
 </body>
 
 </html>
